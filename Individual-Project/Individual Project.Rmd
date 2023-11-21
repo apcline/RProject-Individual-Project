@@ -1,0 +1,96 @@
+---
+title: "Individual Project"
+author: "Alexis"
+date: "2023-09-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Importing the data
+hr <- read.csv("HR Employee Attrition.csv")
+```
+
+```{r}
+#Descriptive Analysis
+summary(hr)
+```
+
+```{r}
+#Filtering the data
+library(dplyr)
+'20 and up' <- filter(hr, Age >= 20)
+print(`20 and up`)
+```
+
+```{r}
+#New column based on a for loop
+Young_or_Old <- vector("double", length = nrow(hr))
+for (i in 1:nrow(hr)) {
+  if (hr$Age[i] >= 30) {
+    Young_or_Old[i] <- "Over 30"
+  } else {
+    Young_or_Old[i] <- "Under 30"
+  }
+}
+hr$AgeGroup <- Young_or_Old
+print(hr)
+```
+
+```{r}
+#New column based on an if statement
+hr <- hr %>%
+  mutate(Experience = ifelse(YearsInCurrentRole >= 4, "Experienced", "Inexperienced"))
+print(hr)
+
+```
+
+```{r}
+#Increasing MonthlyIncome by 10% (using mutate function)
+hr <- hr %>%
+  mutate(IncreasedIncome = MonthlyIncome * 1.10)
+print(hr)
+```
+
+```{r}
+#Summary of the Number of Companies Worked column
+summary_NumCompaniesWorked <- hr %>%
+  summarize(
+    MeanCompaniesWorked = mean(NumCompaniesWorked),
+    MedianCompaniesWorked = median(NumCompaniesWorked),
+    MinCompaniesWorked = min(NumCompaniesWorked),
+    MaxCompaniesWorked = max(NumCompaniesWorked),
+    SumCompaniesWorked = sum(NumCompaniesWorked)
+  )
+print(summary_NumCompaniesWorked)
+```
+
+```{r}
+#Plot with ggplot2
+  #Histogram of attrition by department
+library(ggplot2)
+hr <- data.frame(
+  Department = hr$Department,
+  Attrition = hr$Attrition
+)
+
+ggplot(hr, aes(x = Department, fill = Attrition)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Department", y = "Count", fill = "Attrition") +
+  ggtitle("Attrition by Department")
+```
+
+
+```{r}
+#Plot with plotly
+  #Pie chart of gender
+hr <- read.csv("HR Employee Attrition.csv")
+library(plotly)
+pie_chart <- plot_ly(hr, labels = ~Gender, type = 'pie')
+pie_chart <- pie_chart %>% layout(title = "Gender Distribution")
+pie_chart
+```
+

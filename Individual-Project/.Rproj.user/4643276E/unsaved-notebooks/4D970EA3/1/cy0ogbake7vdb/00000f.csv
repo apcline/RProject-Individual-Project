@@ -1,0 +1,4 @@
+"0","#Increasing MonthlyIncome by 10% (using mutate function)"
+"0","hr <- hr %>%"
+"0","  mutate(IncreasedIncome = MonthlyIncome * 1.10)"
+"0","print(hr)"

@@ -1,0 +1,4 @@
+"0","#New column based on an if statement"
+"0","hr <- hr %>%"
+"0","  mutate(Experience = ifelse(YearsInCurrentRole >= 4, ""Experienced"", ""Inexperienced""))"
+"0","print(hr)"
